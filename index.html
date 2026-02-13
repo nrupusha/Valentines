@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine? 💖</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Arial', sans-serif;
+        background: linear-gradient(135deg, #ff758c, #ff7eb3);
+        overflow: hidden;
+        text-align: center;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        position: relative;
+        max-width: 90%;
+        width: 400px;
+        z-index: 2;
+    }
+
+    h1 {
+        color: #ff4d6d;
+        font-size: 24px;
+    }
+
+    button {
+        padding: 12px 25px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        cursor: pointer;
+        margin: 10px;
+        transition: 0.3s;
+    }
+
+    #yesBtn {
+        background-color: #ff4d6d;
+        color: white;
+    }
+
+    #yesBtn:hover {
+        background-color: #ff1e4d;
+    }
+
+    #noBtn {
+        background-color: #888;
+        color: white;
+        position: relative;
+    }
+
+    .message {
+        font-size: 24px;
+        color: #ff4d6d;
+        margin-top: 20px;
+        font-weight: bold;
+        animation: pop 0.5s ease;
+    }
+
+    @keyframes pop {
+        0% { transform: scale(0); }
+        100% { transform: scale(1); }
+    }
+
+    /* Floating Hearts */
+    .heart {
+        position: absolute;
+        color: #ff4d6d;
+        font-size: 20px;
+        animation: float 5s linear infinite;
+        opacity: 0.7;
+    }
+
+    @keyframes float {
+        0% {
+            transform: translateY(100vh);
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+        100% {
+            transform: translateY(-10vh);
+            opacity: 0;
+        }
+    }
+
+    /* Surprise Popup */
+    .popup {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        background: white;
+        padding: 30px;
+        border-radius: 20px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        font-size: 26px;
+        color: #ff4d6d;
+        z-index: 5;
+        transition: 0.4s;
+    }
+
+    .popup.show {
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    .music-btn {
+        margin-top: 15px;
+        font-size: 14px;
+        background: #ff9a9e;
+        color: white;
+    }
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>Will You Be My Valentine? 💖</h1>
+    <button id="yesBtn" onclick="sayLove()">Yes 💘</button>
+    <button id="noBtn" onmouseover="moveButton()">No 🙈</button>
+    <div id="message"></div>
+    <button class="music-btn" onclick="toggleMusic()">🎶 Toggle Music</button>
+</div>
+
+<div class="popup" id="popup">
+    🎉 I LOVE YOU SO MUCH! 🥰❤️
+</div>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const music = document.getElementById("bgMusic");
+
+function sayLove() {
+    document.getElementById("message").innerHTML =
+        "<div class='message'>I love you forever! 💖🥰</div>";
+
+    document.getElementById("popup").classList.add("show");
+}
+
+function moveButton() {
+    const button = document.getElementById("noBtn");
+    const x = Math.floor(Math.random() * 300) - 150;
+    const y = Math.floor(Math.random() * 200) - 100;
+    button.style.transform = `translate(${x}px, ${y}px)`;
+}
+
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    heart.style.animationDuration = Math.random() * 3 + 3 + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 5000);
+}
+
+setInterval(createHeart, 300);
+
+function toggleMusic() {
+    if (music.paused) {
+        music.play();
+    } else {
+        music.pause();
+    }
+}
+
+</script>
+
+</body>
+</html>
