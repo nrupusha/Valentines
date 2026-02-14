@@ -91,8 +91,8 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 320px;
-    height: 320px;
+    width: 420px;  /* bigger width */
+    height: 420px; /* bigger height */
     background: #ffb6c1;
     clip-path: polygon(
         50% 0%, 61% 10%, 68% 25%, 75% 15%, 
@@ -111,7 +111,7 @@ button {
     color: white;
     font-size: 16px;
     font-weight: bold;
-    overflow-y: auto;
+    overflow-y: auto; /* scroll if text too long */
     z-index: 10;
     transition: 0.5s;
 }
@@ -155,13 +155,16 @@ button {
     <button onclick="closePopup()">Close 💌</button>
 </div>
 
-<!-- Heart shaped note with your personal message -->
+<!-- Heart shaped note with bigger size and close button -->
 <div class="heart-note" id="heartNote">
-    💖 Hey BOO BOO, I just want to tell you how special you are to me. <br><br>
-    I love you every second of my life. I can’t live without you. Though you are miles away from me... <br><br>
-    I love you milkywayssssssss much times. I’m so amazed by you every day. I can’t believe we get to do life together. <br><br>
-    Even after all this time, I still can’t believe how lucky I am to have you. Millions of hugs and Trillon kisses sending your way. <br><br>
-    Please come back. I MISS YOU!! 😢💖
+    <div style="overflow-y:auto; max-height: 90%; padding: 10px;">
+        💖 Hey BOO BOO, I just want to tell you how special you are to me. <br><br>
+        I love you every second of my life. I can’t live without you. Though you are miles away from me... <br><br>
+        I love you milkywayssssssss much times. I’m so amazed by you every day. I can’t believe we get to do life together. <br><br>
+        Even after all this time, I still can’t believe how lucky I am to have you. Millions of hugs and Trillon kisses sending your way. <br><br>
+        Please come back. I MISS YOU!! 😢💖
+    </div>
+    <button style="margin-top:10px; padding: 8px 20px; border:none; border-radius:10px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeHeartNote()">Close 💌</button>
 </div>
 
 <!-- Background music -->
@@ -181,6 +184,11 @@ function sayLove() { document.getElementById("popup").classList.add("show"); }
 function closePopup() {
     document.getElementById("popup").classList.remove("show");
     document.getElementById("heartNote").classList.add("show");
+}
+
+// Close heart note
+function closeHeartNote() {
+    document.getElementById("heartNote").classList.remove("show");
 }
 
 // Move No button
