@@ -85,46 +85,42 @@ button {
 
 .popup.show { transform: translate(-50%, -50%) scale(1); }
 
-/* Heart shaped note */
-.heart-note {
+/* Rectangle-shaped personal note */
+.rect-note {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 420px;  /* bigger width */
-    height: 420px; /* bigger height */
+    width: 500px;   
+    height: 400px;  
     background: #ffb6c1;
-    clip-path: polygon(
-        50% 0%, 61% 10%, 68% 25%, 75% 15%, 
-        90% 25%, 95% 40%, 100% 50%, 95% 60%, 
-        90% 75%, 75% 85%, 68% 90%, 61% 95%, 
-        50% 100%, 39% 95%, 32% 90%, 25% 85%, 
-        10% 75%, 5% 60%, 0 50%, 5% 40%, 
-        10% 25%, 25% 15%, 32% 25%, 39% 10%
-    );
+    border-radius: 25px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
-    padding: 20px;
+    padding: 25px;
     color: white;
     font-size: 16px;
     font-weight: bold;
-    overflow-y: auto; /* scroll if text too long */
+    overflow-y: auto;
     z-index: 10;
     transition: 0.5s;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    animation: heartbeat 1.5s infinite;
 }
 
-/* Heart beating animation */
+/* Show rectangle note */
+.rect-note.show { transform: translate(-50%, -50%) scale(1); }
+
+/* Heartbeat animation */
 @keyframes heartbeat {
     0%, 100% { transform: translate(-50%, -50%) scale(1); }
-    25% { transform: translate(-50%, -50%) scale(1.05); }
-    50% { transform: translate(-50%, -50%) scale(1.1); }
-    75% { transform: translate(-50%, -50%) scale(1.05); }
+    25% { transform: translate(-50%, -50%) scale(1.03); }
+    50% { transform: translate(-50%, -50%) scale(1.06); }
+    75% { transform: translate(-50%, -50%) scale(1.03); }
 }
-
-.heart-note.show { transform: translate(-50%, -50%) scale(1); animation: heartbeat 1.5s infinite; }
 
 /* Glitter sparkles */
 .sparkle {
@@ -145,10 +141,10 @@ button {
     100% { opacity: 0; transform: translate(0,0) scale(0.5); }
 }
 
-/* Teddy GIFs */
+/* Teddy GIFs (twice bigger) */
 .teddy {
     position: absolute;
-    width: 80px;
+    width: 160px;  /* doubled size */
     z-index: 1;
     animation: floatTeddy 4s ease-in-out infinite alternate;
 }
@@ -156,7 +152,11 @@ button {
 #teddy1 { bottom: 10px; left: 10px; }
 #teddy2 { bottom: 10px; right: 10px; }
 
-@keyframes floatTeddy { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
+@keyframes floatTeddy { 
+    0% { transform: translateY(0); } 
+    50% { transform: translateY(-10px); } 
+    100% { transform: translateY(0); } 
+}
 
 /* Music button */
 .music-btn { margin-top: 15px; font-size: 14px; background: #ff9a9e; color: white; }
@@ -182,18 +182,16 @@ button {
     <button onclick="closePopup()">Close 💌</button>
 </div>
 
-<!-- Heart shaped note with bigger size, scroll, heartbeat, sparkles -->
-<div class="heart-note" id="heartNote">
+<!-- Rectangle-shaped personal note -->
+<div class="rect-note" id="rectNote">
     <div style="overflow-y:auto; max-height: 90%; padding: 10px;">
-        💖 Hey BOO BOO, 
-        I just want to tell you how special you are to me. <br><br>
+        💖 Hey BOO BOO, I just want to tell you how special you are to me. <br><br>
         I love you every second of my life. I can’t live without you. Though you are miles away from me... <br><br>
         I love you milkywayssssssss much times. I’m so amazed by you every day. I can’t believe we get to do life together. <br><br>
-        Even after all this time, I still can’t believe how lucky I am to have you. 
-        Millions of hugs and Trillon kisses sending your way💘. <br><br>
+        Even after all this time, I still can’t believe how lucky I am to have you. Millions of hugs and Trillon kisses sending your way. <br><br>
         Please come back. I MISS YOU!! 😢💖
     </div>
-    <button style="margin-top:10px; padding: 8px 20px; border:none; border-radius:10px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeHeartNote()">Close 💌</button>
+    <button style="margin-top:10px; padding: 10px 25px; border:none; border-radius:12px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeRectNote()">Close 💌</button>
 </div>
 
 <!-- Background music -->
@@ -209,15 +207,15 @@ function toggleMusic() { if (music.paused) music.play(); else music.pause(); }
 // Yes button popup
 function sayLove() { document.getElementById("popup").classList.add("show"); }
 
-// Close popup and show heart note
+// Close popup and show rectangle note
 function closePopup() {
     document.getElementById("popup").classList.remove("show");
-    document.getElementById("heartNote").classList.add("show");
+    document.getElementById("rectNote").classList.add("show");
 }
 
-// Close heart note
-function closeHeartNote() {
-    document.getElementById("heartNote").classList.remove("show");
+// Close rectangle note
+function closeRectNote() {
+    document.getElementById("rectNote").classList.remove("show");
 }
 
 // Move No button
@@ -241,20 +239,19 @@ function createHeart() {
 }
 setInterval(createHeart, 300);
 
-// Sparkles around heart note
+// Sparkles around rectangle note
 function createSparkle() {
-    const heartNote = document.getElementById("heartNote");
-    if (!heartNote.classList.contains("show")) return; // only when visible
+    const rectNote = document.getElementById("rectNote");
+    if (!rectNote.classList.contains("show")) return;
 
     const sparkle = document.createElement("div");
     sparkle.classList.add("sparkle");
 
-    const rect = heartNote.getBoundingClientRect();
+    const rect = rectNote.getBoundingClientRect();
     sparkle.style.left = (rect.left + Math.random() * rect.width) + "px";
     sparkle.style.top = (rect.top + Math.random() * rect.height) + "px";
 
     document.body.appendChild(sparkle);
-
     setTimeout(() => sparkle.remove(), 1000);
 }
 setInterval(createSparkle, 200);
