@@ -116,7 +116,34 @@ button {
     transition: 0.5s;
 }
 
-.heart-note.show { transform: translate(-50%, -50%) scale(1); }
+/* Heart beating animation */
+@keyframes heartbeat {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    25% { transform: translate(-50%, -50%) scale(1.05); }
+    50% { transform: translate(-50%, -50%) scale(1.1); }
+    75% { transform: translate(-50%, -50%) scale(1.05); }
+}
+
+.heart-note.show { transform: translate(-50%, -50%) scale(1); animation: heartbeat 1.5s infinite; }
+
+/* Glitter sparkles */
+.sparkle {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0;
+    pointer-events: none;
+    animation: sparkleAnim 1s linear infinite;
+    z-index: 15;
+}
+
+@keyframes sparkleAnim {
+    0% { opacity: 0; transform: translate(0,0) scale(0.5); }
+    50% { opacity: 1; transform: translate(0,0) scale(1); }
+    100% { opacity: 0; transform: translate(0,0) scale(0.5); }
+}
 
 /* Teddy GIFs */
 .teddy {
@@ -155,13 +182,15 @@ button {
     <button onclick="closePopup()">Close 💌</button>
 </div>
 
-<!-- Heart shaped note with bigger size and close button -->
+<!-- Heart shaped note with bigger size, scroll, heartbeat, sparkles -->
 <div class="heart-note" id="heartNote">
     <div style="overflow-y:auto; max-height: 90%; padding: 10px;">
-        💖 Hey BOO BOO, I just want to tell you how special you are to me. <br><br>
+        💖 Hey BOO BOO, 
+        I just want to tell you how special you are to me. <br><br>
         I love you every second of my life. I can’t live without you. Though you are miles away from me... <br><br>
         I love you milkywayssssssss much times. I’m so amazed by you every day. I can’t believe we get to do life together. <br><br>
-        Even after all this time, I still can’t believe how lucky I am to have you. Millions of hugs and Trillon kisses sending your way. <br><br>
+        Even after all this time, I still can’t believe how lucky I am to have you. 
+        Millions of hugs and Trillon kisses sending your way💘. <br><br>
         Please come back. I MISS YOU!! 😢💖
     </div>
     <button style="margin-top:10px; padding: 8px 20px; border:none; border-radius:10px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeHeartNote()">Close 💌</button>
@@ -211,7 +240,24 @@ function createHeart() {
     setTimeout(() => heart.remove(), 5000);
 }
 setInterval(createHeart, 300);
+
+// Sparkles around heart note
+function createSparkle() {
+    const heartNote = document.getElementById("heartNote");
+    if (!heartNote.classList.contains("show")) return; // only when visible
+
+    const sparkle = document.createElement("div");
+    sparkle.classList.add("sparkle");
+
+    const rect = heartNote.getBoundingClientRect();
+    sparkle.style.left = (rect.left + Math.random() * rect.width) + "px";
+    sparkle.style.top = (rect.top + Math.random() * rect.height) + "px";
+
+    document.body.appendChild(sparkle);
+
+    setTimeout(() => sparkle.remove(), 1000);
+}
+setInterval(createSparkle, 200);
 </script>
 </body>
 </html>
-
