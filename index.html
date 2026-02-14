@@ -91,8 +91,8 @@ button {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 500px;   
-    height: 400px;  
+    width: 500px;   /* wider for long text */
+    height: 400px;  /* taller to fit content */
     background: #ffb6c1;
     border-radius: 25px;
     display: flex;
@@ -104,11 +104,11 @@ button {
     color: white;
     font-size: 16px;
     font-weight: bold;
-    overflow-y: auto;
+    overflow-y: auto;  /* scroll if text overflows */
     z-index: 10;
     transition: 0.5s;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-    animation: heartbeat 1.5s infinite;
+    animation: heartbeat 1.5s infinite; /* gentle heartbeat */
 }
 
 /* Show rectangle note */
@@ -121,6 +121,9 @@ button {
     50% { transform: translate(-50%, -50%) scale(1.06); }
     75% { transform: translate(-50%, -50%) scale(1.03); }
 }
+
+
+.rect-note.show { transform: translate(-50%, -50%) scale(1); animation: heartbeat 1.5s infinite; }
 
 /* Glitter sparkles */
 .sparkle {
@@ -141,10 +144,10 @@ button {
     100% { opacity: 0; transform: translate(0,0) scale(0.5); }
 }
 
-/* Teddy GIFs (twice bigger) */
+/* Teddy GIFs */
 .teddy {
     position: absolute;
-    width: 180px;
+    width: 80px;
     z-index: 1;
     animation: floatTeddy 4s ease-in-out infinite alternate;
 }
@@ -152,11 +155,7 @@ button {
 #teddy1 { bottom: 10px; left: 10px; }
 #teddy2 { bottom: 10px; right: 10px; }
 
-@keyframes floatTeddy { 
-    0% { transform: translateY(0); } 
-    50% { transform: translateY(-10px); } 
-    100% { transform: translateY(0); } 
-}
+@keyframes floatTeddy { 0% { transform: translateY(0); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0); } }
 
 /* Music button */
 .music-btn { margin-top: 15px; font-size: 14px; background: #ff9a9e; color: white; }
@@ -182,8 +181,8 @@ button {
     <button onclick="closePopup()">Close 💌</button>
 </div>
 
-<!-- Rectangle-shaped personal note replacing heart note -->
-<div class="rect-note" id="heartNote">
+<!-- Heart shaped note with bigger size, scroll, heartbeat, sparkles -->
+<div class="rect-note" id="rectNote">
     <div style="overflow-y:auto; max-height: 90%; padding: 10px;">
         💖 Hey BOO BOO, I just want to tell you how special you are to me. <br><br>
         I love you every second of my life. I can’t live without you. Though you are miles away from me... <br><br>
@@ -191,8 +190,9 @@ button {
         Even after all this time, I still can’t believe how lucky I am to have you. Millions of hugs and Trillon kisses sending your way. <br><br>
         Please come back. I MISS YOU!! 😢💖
     </div>
-    <button style="margin-top:10px; padding: 10px 25px; border:none; border-radius:12px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeHeartNote()">Close 💌</button>
+    <button style="margin-top:10px; padding: 10px 25px; border:none; border-radius:12px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeRectNote()">Close 💌</button>
 </div>
+
 
 <!-- Background music -->
 <audio id="bgMusic" loop autoplay>
@@ -207,13 +207,13 @@ function toggleMusic() { if (music.paused) music.play(); else music.pause(); }
 // Yes button popup
 function sayLove() { document.getElementById("popup").classList.add("show"); }
 
-// Close popup and show rectangle note
+// Close popup and show heart note
 function closePopup() {
     document.getElementById("popup").classList.remove("show");
     document.getElementById("heartNote").classList.add("show");
 }
 
-// Close rectangle note
+// Close heart note
 function closeHeartNote() {
     document.getElementById("heartNote").classList.remove("show");
 }
@@ -239,19 +239,20 @@ function createHeart() {
 }
 setInterval(createHeart, 300);
 
-// Sparkles around rectangle note
+// Sparkles around heart note
 function createSparkle() {
-    const rectNote = document.getElementById("heartNote");
-    if (!rectNote.classList.contains("show")) return;
+    const heartNote = document.getElementById("heartNote");
+    if (!heartNote.classList.contains("show")) return; // only when visible
 
     const sparkle = document.createElement("div");
     sparkle.classList.add("sparkle");
 
-    const rect = rectNote.getBoundingClientRect();
+    const rect = heartNote.getBoundingClientRect();
     sparkle.style.left = (rect.left + Math.random() * rect.width) + "px";
     sparkle.style.top = (rect.top + Math.random() * rect.height) + "px";
 
     document.body.appendChild(sparkle);
+
     setTimeout(() => sparkle.remove(), 1000);
 }
 setInterval(createSparkle, 200);
