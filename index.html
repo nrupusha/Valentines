@@ -144,7 +144,7 @@ button {
 /* Teddy GIFs (twice bigger) */
 .teddy {
     position: absolute;
-    width: 160px;  /* doubled size */
+    width: 180px;
     z-index: 1;
     animation: floatTeddy 4s ease-in-out infinite alternate;
 }
@@ -182,8 +182,8 @@ button {
     <button onclick="closePopup()">Close 💌</button>
 </div>
 
-<!-- Rectangle-shaped personal note -->
-<div class="rect-note" id="rectNote">
+<!-- Rectangle-shaped personal note replacing heart note -->
+<div class="rect-note" id="heartNote">
     <div style="overflow-y:auto; max-height: 90%; padding: 10px;">
         💖 Hey BOO BOO, I just want to tell you how special you are to me. <br><br>
         I love you every second of my life. I can’t live without you. Though you are miles away from me... <br><br>
@@ -191,7 +191,7 @@ button {
         Even after all this time, I still can’t believe how lucky I am to have you. Millions of hugs and Trillon kisses sending your way. <br><br>
         Please come back. I MISS YOU!! 😢💖
     </div>
-    <button style="margin-top:10px; padding: 10px 25px; border:none; border-radius:12px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeRectNote()">Close 💌</button>
+    <button style="margin-top:10px; padding: 10px 25px; border:none; border-radius:12px; background:#ff4d6d; color:white; cursor:pointer;" onclick="closeHeartNote()">Close 💌</button>
 </div>
 
 <!-- Background music -->
@@ -210,12 +210,12 @@ function sayLove() { document.getElementById("popup").classList.add("show"); }
 // Close popup and show rectangle note
 function closePopup() {
     document.getElementById("popup").classList.remove("show");
-    document.getElementById("rectNote").classList.add("show");
+    document.getElementById("heartNote").classList.add("show");
 }
 
 // Close rectangle note
-function closeRectNote() {
-    document.getElementById("rectNote").classList.remove("show");
+function closeHeartNote() {
+    document.getElementById("heartNote").classList.remove("show");
 }
 
 // Move No button
@@ -241,7 +241,7 @@ setInterval(createHeart, 300);
 
 // Sparkles around rectangle note
 function createSparkle() {
-    const rectNote = document.getElementById("rectNote");
+    const rectNote = document.getElementById("heartNote");
     if (!rectNote.classList.contains("show")) return;
 
     const sparkle = document.createElement("div");
@@ -258,3 +258,4 @@ setInterval(createSparkle, 200);
 </script>
 </body>
 </html>
+
